@@ -1,8 +1,7 @@
-from pyrogram import Client, idle
+from pyrogram import Client
 from utils.config import Config
 from utils.logger import logger
 import handlers  # noqa: F401
-
 
 app = Client(
     "promo-bot",
@@ -12,10 +11,7 @@ app = Client(
     plugins={"root": "handlers"},
 )
 
-async def main():
-    logger.info("Bot started")
-    await idle()
-
 
 if __name__ == "__main__":
-    app.run(main())
+    logger.info("Starting bot")
+    app.run()

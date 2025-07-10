@@ -1,5 +1,5 @@
-pyrogram==2.0.106
+pyrogram>=2.0
 tgcrypto
+python-dotenv
 motor
 pymongo
-python-dotenv
