@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.enums import ParseMode
 from utils.logger import logger
+from utils.config import Config
 from database import get_user, get_group_by_owner
 
 
@@ -35,3 +36,13 @@ async def help_cmd(client: Client, message: Message):
         "Use /menu to access features and earn credits by joining groups.",
         parse_mode=ParseMode.HTML,
     )
+
+
+@Client.on_message(filters.private & filters.command("refer"))
+async def refer_cmd(client: Client, message: Message):
+    link = f"https://t.me/{Config.BOT_USERNAME}?start=ref_{message.from_user.id}"
+    await message.reply_text(
+        f"<b>Share this link to invite friends\n{link}</b>",
+        parse_mode=ParseMode.HTML,
+    )
+

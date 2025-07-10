@@ -4,8 +4,9 @@ Promo Main is a Telegram bot that lets users promote their Telegram groups using
 
 ## Features
 - Join‑for‑join promotion system
+- Referral tracking with invite links
 - Manual UPI payment workflow
-- Admin commands for approving or banning users
+- Admin commands for approving or banning groups
 - Simple credit tracking with MongoDB
 - Start and menu commands with inline buttons
 
@@ -37,7 +38,8 @@ Promo Main is a Telegram bot that lets users promote their Telegram groups using
 The project includes a `runtime.txt` and `Procfile` to make it easy to deploy on platforms such as Heroku. Ensure environment variables from `.env` are configured on the platform.
 
 ## Manual Payment System
-Payments are collected manually. Users send money using the displayed UPI address and then run `/paid <transaction_id>` in the bot. The admin reviews the transaction and upgrades the user by running `/approve <user_id>`.
+Payments are collected manually. Users send money using the displayed UPI address and then run `/paid <txn_id>` in the bot. The admin reviews the transaction and approves it from the `/log` panel.
 
 ## Credits
 This project is built using [Pyrogram](https://docs.pyrogram.org/) and requires MongoDB for data storage.
+

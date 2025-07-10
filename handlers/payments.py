@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.enums import ParseMode
 from utils.logger import logger
-from database import insert_payment
+from database import insert_payment, get_latest_payment
 
 
 @Client.on_message(filters.private & filters.command("upgrade"))
@@ -25,3 +25,17 @@ async def paid_cmd(client: Client, message: Message):
     await message.reply_text(
         "Payment recorded. Wait for approval.", parse_mode=ParseMode.HTML
     )
+
+
+@Client.on_message(filters.private & filters.command("payment_status"))
+async def payment_status_cmd(client: Client, message: Message):
+    payment = await get_latest_payment(message.from_user.id)
+    if not payment:
+        await message.reply_text(
+            "<b>No payment found.</b>", parse_mode=ParseMode.HTML
+        )
+        return
+    await message.reply_text(
+        f"<b>Status:</b> {payment['status']}", parse_mode=ParseMode.HTML
+    )
+
