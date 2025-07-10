@@ -1,7 +1,8 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from utils.config import Config
-from database.db import users_col
+from utils.logger import logger
+from database import update_premium, ban_user, get_all_users
 
 
 owner_filter = filters.user(Config.OWNER_ID)
@@ -13,7 +14,8 @@ async def approve_cmd(client: Client, message: Message):
         await message.reply_text("Usage: /approve <user_id>")
         return
     user_id = int(message.command[1])
-    await users_col.update_one({"user_id": user_id}, {"$set": {"premium": True}})
+    await update_premium(user_id, True)
+    logger.info("User %s approved premium for %s", message.from_user.id, user_id)
     await message.reply_text("User approved.")
 
 
@@ -23,7 +25,8 @@ async def ban_cmd(client: Client, message: Message):
         await message.reply_text("Usage: /ban <user_id>")
         return
     user_id = int(message.command[1])
-    await users_col.update_one({"user_id": user_id}, {"$set": {"banned": True}})
+    await ban_user(user_id)
+    logger.info("User %s banned user %s", message.from_user.id, user_id)
     await message.reply_text("User banned.")
 
 
@@ -33,14 +36,16 @@ async def broadcast_cmd(client: Client, message: Message):
         await message.reply_text("Usage: /broadcast <msg>")
         return
     text = " ".join(message.command[1:])
-    async for user in users_col.find({}):
+    async for user in get_all_users():
         try:
             await client.send_message(user["user_id"], text)
         except Exception:
             pass
+    logger.info("Broadcast from %s sent to all users", message.from_user.id)
     await message.reply_text("Broadcast sent.")
 
 
 @Client.on_message(filters.private & owner_filter & filters.command("payments"))
 async def payments_cmd(client: Client, message: Message):
+    logger.info("%s requested payment logs", message.from_user.id)
     await message.reply_text("Payment logs not implemented.")
