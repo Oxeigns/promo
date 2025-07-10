@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyrogram.enums import ParseMode
 from os import getenv
 
 from utils.logger import logger
@@ -21,5 +22,5 @@ async def start_cmd(client: Client, message: Message):
             "Use the button below to open the menu."
         ),
         reply_markup=menu_button(),
-        parse_mode="HTML",
+        parse_mode=ParseMode.HTML,
     )

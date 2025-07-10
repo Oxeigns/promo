@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyrogram.enums import ParseMode
 from utils.logger import logger
 from database import get_user, get_group_by_owner
 
@@ -10,7 +11,7 @@ async def credits_cmd(client: Client, message: Message):
     credits = user.get("credits", 0) if user else 0
     logger.info("User %s checked credits", message.from_user.id)
     await message.reply_text(
-        f"<b>You have {credits} credits.</b>", parse_mode="HTML"
+        f"<b>You have {credits} credits.</b>", parse_mode=ParseMode.HTML
     )
 
 
@@ -19,11 +20,11 @@ async def mygroup_cmd(client: Client, message: Message):
     group = await get_group_by_owner(message.from_user.id)
     if group:
         await message.reply_text(
-            f"<b>Your group:</b> {group['link']}", parse_mode="HTML"
+            f"<b>Your group:</b> {group['link']}", parse_mode=ParseMode.HTML
         )
     else:
         await message.reply_text(
-            "<b>You have not submitted a group.</b>", parse_mode="HTML"
+            "<b>You have not submitted a group.</b>", parse_mode=ParseMode.HTML
         )
 
 
@@ -32,5 +33,5 @@ async def help_cmd(client: Client, message: Message):
     logger.info("User %s requested help", message.from_user.id)
     await message.reply_text(
         "Use /menu to access features and earn credits by joining groups.",
-        parse_mode="HTML",
+        parse_mode=ParseMode.HTML,
     )

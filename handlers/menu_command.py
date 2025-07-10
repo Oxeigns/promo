@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyrogram.enums import ParseMode
 from utils.logger import logger
 from utils.buttons import main_menu_buttons
 
@@ -10,5 +11,5 @@ async def menu_cmd(client: Client, message: Message):
     await message.reply_text(
         "<b>\ud83d\udccc Main Menu</b>",
         reply_markup=main_menu_buttons(),
-        parse_mode="HTML",
+        parse_mode=ParseMode.HTML,
     )
