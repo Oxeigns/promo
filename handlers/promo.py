@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
+from pyrogram.enums import ParseMode
 from utils.logger import logger
 from utils.buttons import confirm_join_buttons
 from database import get_user, get_active_group
@@ -19,6 +20,6 @@ async def promo_cb(client: Client, query: CallbackQuery):
     await query.message.edit_text(
         f"<b>Join {group['title']} and press Done to earn credits.</b>",
         reply_markup=confirm_join_buttons(group["link"], str(group["_id"])),
-        parse_mode="HTML",
+        parse_mode=ParseMode.HTML,
     )
     logger.info("Sent promo group %s to user %s", group.get('title'), user_id)

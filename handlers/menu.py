@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
+from pyrogram.enums import ParseMode
 from utils.logger import logger
 from utils.buttons import main_menu_buttons
 
@@ -9,5 +10,5 @@ async def menu_cb(client: Client, query: CallbackQuery):
     await query.message.edit_text(
         "<b>\ud83d\udccc Main Menu</b>",
         reply_markup=main_menu_buttons(),
-        parse_mode="HTML",
+        parse_mode=ParseMode.HTML,
     )
