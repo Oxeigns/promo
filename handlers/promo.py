@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
 from utils.logger import logger
-from utils.buttons import promo_buttons
+from utils.buttons import confirm_join_buttons
 from database import get_user, get_active_group
 
 
@@ -16,8 +16,9 @@ async def promo_cb(client: Client, query: CallbackQuery):
     if not group:
         await query.answer("No groups to show.", show_alert=True)
         return
-    await query.message.edit(
-        f"Join **{group['title']}** and press Done to earn credits.",
-        reply_markup=promo_buttons(group["link"], str(group["_id"]))
+    await query.message.edit_text(
+        f"<b>Join {group['title']} and press Done to earn credits.</b>",
+        reply_markup=confirm_join_buttons(group["link"], str(group["_id"])),
+        parse_mode="HTML",
     )
     logger.info("Sent promo group %s to user %s", group.get('title'), user_id)
